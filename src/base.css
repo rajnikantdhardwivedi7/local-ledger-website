@@ -1,0 +1,8 @@
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #fffcf7; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, summary { font: inherit; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
