@@ -23,6 +23,6 @@ Set the optional build-time variable `VITE_ANDROID_APK_URL` only after publishin
 ## Assets
 
 - Founder photo: user-supplied photograph, optimized as WebP.
-- Product screen: actual deployed Local Ledger sign-in screen.
+- Product screens: user-supplied map, activity, profile and selfie-comparison screenshots, cropped to remove browser/device chrome. App controls and map attribution are preserved.
 - DM Sans: self-hosted, with the Open Font License in `public/fonts/OFL-DM-Sans.txt`.
 - Website copy is original. Nomadtable provided visual layout and styling reference only.

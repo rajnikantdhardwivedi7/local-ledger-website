@@ -1,9 +1,17 @@
+import { useEffect } from "react";
 import "./traveler-landing.css";
 
 const appHref = "https://local-ledger-henna.vercel.app/?app=1";
 // Release owners supply the signed APK URL; never substitute an invented file.
 const releaseUrl = import.meta.env.VITE_ANDROID_APK_URL as string | undefined;
 const apkUrl = releaseUrl && /^https:\/\//i.test(releaseUrl) ? releaseUrl : undefined;
+
+const screens = [
+  { file: "app-map", title: "a world of possibilities", label: "EXPLORE", description: "Find activities on the map.", alt: "Local Ledger map showing an activity marker, category filters and the Create button" },
+  { file: "app-activity", title: "a plan worth sharing", label: "CONNECT", description: "See the details. Start a conversation.", alt: "Coffee activity details in Local Ledger with the host, meeting location, participants and Open chat button" },
+  { file: "app-profile", title: "a little more you", label: "YOUR PROFILE", description: "Put a person behind the hello.", alt: "Rajnikant’s Local Ledger profile showing a profile photograph, photo slots and the selfie matching entry" },
+  { file: "app-selfie", title: "a thoughtful first step", label: "PHOTO MATCHING", description: "A consent-first selfie comparison.", alt: "Local Ledger live selfie comparison screen with motion-check explanation, consent checkbox and privacy information" },
+];
 
 const day = [
   [
@@ -39,6 +47,11 @@ const day = [
 ];
 
 export function TravelerLanding() {
+  useEffect(() => {
+    const target = document.getElementById(window.location.hash.slice(1));
+    target?.scrollIntoView({ behavior: "instant" });
+  }, []);
+
   return (
     <div className="ll-landing">
       <a className="ll-skip" href="#main">
@@ -116,13 +129,13 @@ export function TravelerLanding() {
           <div className="ll-feature-layout">
             <figure className="ll-app-figure">
               <img
-                src="/images/app-signin.webp"
-                alt="Actual Local Ledger welcome screen with email sign-in and account creation"
-                width="430"
-                height="844"
+                src="/images/app-map.webp"
+                alt="Actual Local Ledger activity map with nearby activities and a Create button"
+                width="698"
+                height="1317"
                 loading="lazy"
               />
-              <figcaption>a peek inside the real app</figcaption>
+              <figcaption>your next plan starts here</figcaption>
             </figure>
             <div className="ll-feature-list">
               <article>
@@ -154,6 +167,29 @@ export function TravelerLanding() {
               </a>
             </div>
           </div>
+        </section>
+
+        <section className="ll-screens ll-section" id="inside-the-app" aria-labelledby="ll-screens-title">
+          <span className="ll-eyebrow">A LITTLE LOOK INSIDE</span>
+          <h2 id="ll-screens-title">real screens. real possibilities.</h2>
+          <p className="ll-intro">From finding a plan to putting a face to a hello. Here’s what Local Ledger looks like, in your hands.</p>
+          <div className="ll-screen-grid" role="region" aria-label="Local Ledger app screenshots" tabIndex={0}>
+            {screens.map((screen, index) => (
+              <figure className="ll-screen-card" key={screen.file}>
+                <a className="ll-screen-image" href={`/images/${screen.file}.webp`} target="_blank" rel="noopener noreferrer" aria-label={`Enlarge ${screen.label.toLowerCase()} screenshot (opens in a new tab)`}>
+                  <img src={`/images/${screen.file}.webp`} alt={screen.alt} width="698" height="1317" loading="lazy" decoding="async" />
+                  <span className="ll-screen-expand" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m7 17 10-10M7 7h10v10" /></svg></span>
+                </a>
+                <figcaption>
+                  <span className="ll-screen-label"><span aria-hidden="true">0{index + 1} / </span>{screen.label}</span>
+                  <h3>{screen.title}</h3>
+                  <p>{screen.description}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="ll-caption ll-screen-hint"><span className="ll-swipe-hint">swipe to explore · </span>tap a screen for a closer look</p>
+          <p className="ll-caption ll-photo-note">Photo matching compares a selfie with a profile photo. It does not verify legal identity or guarantee someone’s safety.</p>
         </section>
 
         <section className="ll-day ll-section" id="your-day" aria-labelledby="ll-day-title">
