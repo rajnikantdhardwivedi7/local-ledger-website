@@ -13,6 +13,17 @@ const screens = [
   { file: "app-selfie", title: "a thoughtful first step", label: "PHOTO MATCHING", description: "A consent-first selfie comparison.", alt: "Local Ledger live selfie comparison screen with motion-check explanation, consent checkbox and privacy information" },
 ];
 
+const destinations = [
+  { flag: "🇮🇳", city: "Goa", country: "India" },
+  { flag: "🇮🇳", city: "Manali", country: "India" },
+  { flag: "🇹🇭", city: "Bangkok", country: "Thailand" },
+  { flag: "🇮🇩", city: "Bali", country: "Indonesia" },
+  { flag: "🇳🇵", city: "Kathmandu", country: "Nepal" },
+  { flag: "🇫🇷", city: "Paris", country: "France" },
+  { flag: "🇯🇵", city: "Tokyo", country: "Japan" },
+  { flag: "🇮🇳", city: "Rishikesh", country: "India" },
+];
+
 const day = [
   [
     "☀️",
@@ -50,6 +61,16 @@ export function TravelerLanding() {
   useEffect(() => {
     const target = document.getElementById(window.location.hash.slice(1));
     target?.scrollIntoView({ behavior: "instant" });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("ll-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".ll-section, .ll-screen-card, .ll-timeline li").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -85,6 +106,11 @@ export function TravelerLanding() {
           <span className="ll-doodle ll-doodle-three" aria-hidden="true">
             ✧
           </span>
+          <div className="ll-flying-flags" aria-hidden="true">
+            {["🇮🇳", "🇫🇷", "🇯🇵", "🇹🇭", "🇧🇷", "🇮🇩", "🇳🇵", "🇦🇺"].map((flag, index) => (
+              <span className={`ll-flying-flag ll-flag-${index + 1}`} key={index}>{flag}</span>
+            ))}
+          </div>
           <span className="ll-pill">a little more connection. a little more adventure.</span>
           <h1 id="ll-hero-title">
             go solo.
@@ -110,6 +136,24 @@ export function TravelerLanding() {
             <span>🧭 a little exploring</span>
             <span>🍜 food & good company</span>
           </div>
+        </section>
+
+        <section className="ll-destinations ll-section" aria-labelledby="ll-destinations-title">
+          <span className="ll-eyebrow">✈️ PLACES TO DREAM ABOUT</span>
+          <h2 id="ll-destinations-title">where will your next hello happen?</h2>
+          <p className="ll-intro">A little inspiration for your next adventure. These are example destinations, not live trip listings.</p>
+          <div className="ll-marquee" aria-label="Illustrative travel destinations">
+            <div className="ll-marquee-track">
+              {[...destinations, ...destinations].map((place, index) => (
+                <div className="ll-destination-card" key={index} aria-hidden={index >= destinations.length}>
+                  <span className="ll-destination-flag" aria-hidden="true">{place.flag}</span>
+                  <strong>{place.city}</strong>
+                  <small>{place.country}</small>
+                </div>
+              ))}
+            </div>
+          </div>
+          <a className="ll-text-link" href={appHref}>explore local ledger →</a>
         </section>
 
         <section
