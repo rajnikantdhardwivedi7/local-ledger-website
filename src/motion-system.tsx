@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type Poin
 import "./motion-system.css";
 
 /** A small, dependency-free damped spring. Animates transforms without React renders per frame. */
-function springTo(element: HTMLElement, from: number, to: number, render: (value: number) => void, onDone?: () => void) {
+function springTo(from: number, to: number, render: (value: number) => void, onDone?: () => void) {
   let value = from, velocity = 0, last = 0, raf = 0, active = true;
   const step = (time: number) => {
     if (!active) return;
@@ -41,7 +41,7 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
     cancelSpring.current?.();
     if (!node) { done?.(); return; }
     if (reduced()) { node.style.transform = `translate3d(0,${to}px,0)`; done?.(); return; }
-    cancelSpring.current = springTo(node, from, to, y => { node.style.transform = `translate3d(0,${y}px,0)`; }, done);
+    cancelSpring.current = springTo(from, to, y => { node.style.transform = `translate3d(0,${y}px,0)`; }, done);
   };
   const close = (distance = 0) => {
     if (closing.current) return;
