@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type PointerEvent as ReactPointerEvent } from "react";
 import "./motion-system.css";
 import { springProgress } from "./spring-curve";
+import { shouldDismissSheet, sheetDisplacement } from "./sheet-gesture";
 
 /** A small, dependency-free damped spring. Animates transforms without React renders per frame. */
 function springTo(from: number, to: number, render: (value: number) => void, onDone?: () => void) {
@@ -31,10 +32,12 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
   const panel = useRef<HTMLDivElement>(null);
   const image = useRef<HTMLImageElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
-  const dragging = useRef<{ start: number; time: number; last: number; lastTime: number } | null>(null);
+  const dragging = useRef<{ start: number; time: number; last: number; lastTime: number; pointerId: number } | null>(null);
   const cancelSpring = useRef<(() => void) | null>(null);
   const closeTimer = useRef<number | null>(null);
   const closing = useRef(false);
+  const finished = useRef(false);
+  const finishClose = () => { if (finished.current) return; finished.current = true; onClose(); };
   const [isClosing, setIsClosing] = useState(false);
   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const animateY = (from: number, to: number, done?: () => void) => {
@@ -50,10 +53,10 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
     setIsClosing(true);
     cancelSpring.current?.();
     const node = panel.current;
-    if (!node || reduced()) { onClose(); return; }
+    if (!node || reduced()) { finishClose(); return; }
     const current = distance || Number(node.style.transform.match(/translate3d\(0,([\d.-]+)px/)?.[1] ?? 0);
-    animateY(current, Math.max(window.innerHeight, node.clientHeight) + 60, onClose);
-    closeTimer.current = window.setTimeout(onClose, 500);
+    animateY(current, Math.max(window.innerHeight, node.clientHeight) + 60, finishClose);
+    closeTimer.current = window.setTimeout(finishClose, 500);
   };
   useLayoutEffect(() => {
     const node = panel.current, img = image.current;
@@ -113,32 +116,39 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
   }, []);
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
-    dragging.current = { start: event.clientY, time: performance.now(), last: event.clientY, lastTime: performance.now() };
+    dragging.current = { start: event.clientY, time: performance.now(), last: event.clientY, lastTime: performance.now(), pointerId: event.pointerId };
     cancelSpring.current?.();
     event.currentTarget.setPointerCapture(event.pointerId);
   };
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     const drag = dragging.current;
     if (!drag || !panel.current) return;
-    const dy = Math.max(0, event.clientY - drag.start);
+    if (event.pointerId !== drag.pointerId) return;
+    const dy = sheetDisplacement(drag.start, event.clientY);
     panel.current.style.transform = `translate3d(0,${dy}px,0)`;
-    drag.last = event.clientY;
-    drag.lastTime = performance.now();
+    if (performance.now() - drag.lastTime > 30) { drag.last = event.clientY; drag.lastTime = performance.now(); }
   };
   const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     const drag = dragging.current;
     dragging.current = null;
-    if (!drag) return;
+    if (!drag || drag.pointerId !== event.pointerId) return;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-    const distance = Math.max(0, event.clientY - drag.start);
-    const velocity = distance / Math.max(performance.now() - drag.time, 1);
-    if (distance > 115 || (distance > 35 && velocity > .65)) close(distance);
+    const distance = sheetDisplacement(drag.start, event.clientY);
+    const elapsed = performance.now() - drag.time;
+    const velocity = distance / Math.max(elapsed, 1);
+    if (shouldDismissSheet(distance, velocity)) close(distance);
     else animateY(distance, 0);
+  };
+  const onPointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragging.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragging.current = null;
+    animateY(sheetDisplacement(drag.start, drag.last), 0);
   };
   return <div className={`ll-sheet-layer ${isClosing ? "ll-sheet-closing" : ""}`}>
     <button className="ll-sheet-backdrop" type="button" tabIndex={-1} aria-label="Close image preview" onClick={() => close()} />
     <div className="ll-image-sheet ll-physics-sheet" role="dialog" aria-modal="true" aria-label="Screenshot preview" ref={panel} tabIndex={-1}>
-      <div className="ll-sheet-drag-zone" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} aria-hidden="true"><span className="ll-sheet-handle" /></div>
+      <div className="ll-sheet-drag-zone" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerCancel} aria-hidden="true"><span className="ll-sheet-handle" /></div>
       <button className="ll-sheet-close" type="button" onClick={() => close()} aria-label="Close preview">✕</button>
       <img ref={image} src={src} alt={alt} />
       <p>Drag down to close · Escape to dismiss</p>
