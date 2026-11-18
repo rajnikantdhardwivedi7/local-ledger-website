@@ -707,3 +707,37 @@
     animation: none !important;
   }
 }
+
+
+/* Motion-rich travel discovery additions */
+.ll-hero { isolation: isolate; overflow: hidden; }
+.ll-flying-flags { position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden; }
+.ll-flying-flag { position:absolute; font-size:clamp(25px,3vw,43px); filter:drop-shadow(0 8px 8px rgba(65,35,50,.12)); animation:ll-float 7s ease-in-out infinite alternate; will-change:transform; }
+.ll-flag-1 {left:8%;top:14%;animation-delay:-1s}
+.ll-flag-2 {right:11%;top:15%;animation-delay:-3s}
+.ll-flag-3 {left:18%;top:60%;animation-delay:-5s}
+.ll-flag-4 {right:17%;top:62%;animation-delay:-2s}
+.ll-flag-5 {left:4%;top:42%;animation-delay:-4s}
+.ll-flag-6 {right:5%;top:43%;animation-delay:-6s}
+.ll-flag-7 {left:32%;top:8%;animation-delay:-2.5s}
+.ll-flag-8 {right:31%;top:80%;animation-delay:-4.5s}
+@keyframes ll-float {0%{transform:translate3d(-12px,12px,0) rotate(-14deg) scale(.9)}50%{transform:translate3d(15px,-17px,0) rotate(8deg) scale(1.05)}100%{transform:translate3d(-5px,-32px,0) rotate(-5deg) scale(.96)}}
+.ll-destinations {text-align:center;background:#fff8f5;overflow:hidden}
+.ll-destinations .ll-intro {margin-inline:auto}
+.ll-marquee {width:100%;overflow:hidden;margin:42px 0 28px;mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent)}
+.ll-marquee-track {display:flex;gap:16px;width:max-content;animation:ll-travel-scroll 38s linear infinite}
+.ll-marquee:hover .ll-marquee-track,.ll-marquee:focus-within .ll-marquee-track {animation-play-state:paused}
+.ll-destination-card {width:190px;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid #f2e5e1;border-radius:22px;background:white;box-shadow:0 12px 30px rgba(77,42,55,.05)}
+.ll-destination-flag {font-size:36px}
+.ll-destination-card strong {font-size:18px;color:#302b35}
+.ll-destination-card small {font-size:12px;color:#857b82}
+@keyframes ll-travel-scroll {to{transform:translateX(calc(-50% - 8px))}}
+@media(prefers-reduced-motion:no-preference) {
+.ll-section:not(.ll-visible) {opacity:0;transform:translateY(24px)}
+.ll-section {transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.ll-screen-card:not(.ll-visible),.ll-timeline li:not(.ll-visible) {opacity:0;transform:translateY(18px)}
+.ll-screen-card,.ll-timeline li {transition:opacity .65s ease,transform .65s ease}
+.ll-visible {opacity:1!important;transform:none!important}
+}
+@media(max-width:650px){.ll-flying-flag{font-size:25px;opacity:.75}.ll-flag-7,.ll-flag-8{display:none}.ll-destination-card{width:156px;min-height:145px}}
+@media(prefers-reduced-motion:reduce){.ll-flying-flag,.ll-marquee-track{animation:none!important}.ll-marquee{overflow-x:auto;mask-image:none}.ll-section,.ll-screen-card,.ll-timeline li{opacity:1!important;transform:none!important}}
