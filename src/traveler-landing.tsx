@@ -87,6 +87,7 @@ export function TravelerLanding() {
           <a className="ll-nav-story" href="#story">
             our story
           </a>
+          <a className="ll-nav-story" href="/blog/why-i-built-local-ledger">blog</a>
           <a className="ll-nav-day" href="#your-day">
             a day with us
           </a>
@@ -213,6 +214,20 @@ export function TravelerLanding() {
           </div>
         </section>
 
+        <section className="ll-more-features ll-section" aria-labelledby="ll-more-features-title">
+          <span className="ll-eyebrow">BUILT AROUND REAL CONNECTIONS</span>
+          <h2 id="ll-more-features-title">more than just another travel feed.</h2>
+          <p className="ll-intro">From finding an activity to knowing a little more about who you're meeting, Local Ledger brings the practical pieces of a shared plan together.</p>
+          <div className="ll-more-grid">
+            <article><span>🗺️</span><h3>explore the map</h3><p>Browse activities by location and find something that interests you.</p></article>
+            <article><span>📍</span><h3>make a plan</h3><p>Create an activity with a time and meeting place.</p></article>
+            <article><span>🙌</span><h3>join in</h3><p>See activity details and connect around a shared experience.</p></article>
+            <article><span>💬</span><h3>talk it through</h3><p>Use activity conversations to agree on the details before meeting.</p></article>
+            <article><span>👤</span><h3>show who you are</h3><p>Build a profile with photos and information you choose to share.</p></article>
+            <article><span>🛡️</span><h3>make thoughtful choices</h3><p>Learn about selfie comparison and safety guidance. A photo match is not identity verification.</p></article>
+          </div>
+        </section>
+
         <section className="ll-screens ll-section" id="inside-the-app" aria-labelledby="ll-screens-title">
           <span className="ll-eyebrow">A LITTLE LOOK INSIDE</span>
           <h2 id="ll-screens-title">real screens. real possibilities.</h2>
@@ -234,6 +249,13 @@ export function TravelerLanding() {
           </div>
           <p className="ll-caption ll-screen-hint"><span className="ll-swipe-hint">swipe to explore · </span>tap a screen for a closer look</p>
           <p className="ll-caption ll-photo-note">Photo matching compares a selfie with a profile photo. It does not verify legal identity or guarantee someone’s safety.</p>
+        </section>
+
+        <section className="ll-blog-preview ll-section" id="blog" aria-labelledby="ll-blog-preview-title">
+          <span className="ll-eyebrow">FROM THE FOUNDER'S JOURNAL</span>
+          <h2 id="ll-blog-preview-title">some journeys begin before you pack your bags.</h2>
+          <p className="ll-intro">I started building Local Ledger in 2025, with one question in mind: what if finding someone to share a travel experience with could feel a little more natural?</p>
+          <a className="ll-button" href="/blog/why-i-built-local-ledger">read why and how i built it <span aria-hidden="true">→</span></a>
         </section>
 
         <section className="ll-day ll-section" id="your-day" aria-labelledby="ll-day-title">
@@ -287,6 +309,7 @@ export function TravelerLanding() {
             </p>
           </div>
           <p className="ll-founder-signature">— Rajnikant Dhar Dwivedi, Founder 🤝</p>
+          <a className="ll-text-link" href="/blog/why-i-built-local-ledger">read the full story →</a>
         </section>
 
         <section className="ll-note ll-section" aria-labelledby="ll-note-title">
@@ -393,6 +416,8 @@ export function TravelerLanding() {
         <p>real activities. real people. a little closer.</p>
         <nav aria-label="Footer navigation">
           <a href="#story">our story</a>
+          <a href="/blog/why-i-built-local-ledger">founder's blog</a>
+          <a href="https://www.instagram.com/local.ledger/" target="_blank" rel="noopener noreferrer">instagram @local.ledger ↗</a>
           <a href="#questions">questions & safety</a>
           <a href={appHref}>open the app →</a>
         </nav>
