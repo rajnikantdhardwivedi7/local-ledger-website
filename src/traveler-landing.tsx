@@ -63,7 +63,8 @@ export function TravelerLanding() {
   useEffect(() => {
     const target = document.getElementById(window.location.hash.slice(1));
     target?.scrollIntoView({ behavior: "instant" });
-    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;\n    const observer = new IntersectionObserver((entries) => {
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("ll-visible");
@@ -72,7 +73,9 @@ export function TravelerLanding() {
       });
     }, { threshold: 0.12 });
     document.querySelectorAll(".ll-section, .ll-screen-card, .ll-timeline li").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const root = document.querySelector(".ll-landing");
+    root?.classList.add("ll-motion-ready");
+    return () => { observer.disconnect(); root?.classList.remove("ll-motion-ready"); };
   }, []);
 
   return (
