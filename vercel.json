@@ -3,6 +3,10 @@
     {
       "source": "/blog/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/community-guidelines",
+      "destination": "/index.html"
     }
   ]
 }
