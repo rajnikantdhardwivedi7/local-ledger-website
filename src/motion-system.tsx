@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type PointerEvent as ReactPointerEvent } from "react";
 import "./motion-system.css";
 import { springProgress } from "./spring-curve";
@@ -145,7 +146,7 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
     dragging.current = null;
     animateY(sheetDisplacement(drag.start, drag.last), 0);
   };
-  return <div className={`ll-sheet-layer ${isClosing ? "ll-sheet-closing" : ""}`}>
+  return createPortal(<div className={`ll-sheet-layer ${isClosing ? "ll-sheet-closing" : ""}`}>
     <button className="ll-sheet-backdrop" type="button" tabIndex={-1} aria-label="Close image preview" onClick={() => close()} />
     <div className="ll-image-sheet ll-physics-sheet" role="dialog" aria-modal="true" aria-label="Screenshot preview" ref={panel} tabIndex={-1}>
       <div className="ll-sheet-drag-zone" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerCancel} aria-hidden="true"><span className="ll-sheet-handle" /></div>
@@ -153,5 +154,5 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
       <img ref={image} src={src} alt={alt} />
       <p>Drag down to close · Escape to dismiss</p>
     </div>
-  </div>;
+  </div>, document.body);
 }
