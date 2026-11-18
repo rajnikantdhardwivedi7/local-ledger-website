@@ -63,7 +63,7 @@ export function TravelerLanding() {
   useEffect(() => {
     const target = document.getElementById(window.location.hash.slice(1));
     target?.scrollIntoView({ behavior: "instant" });
-    const observer = new IntersectionObserver((entries) => {
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;\n    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("ll-visible");
