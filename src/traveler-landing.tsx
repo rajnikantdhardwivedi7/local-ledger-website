@@ -432,6 +432,7 @@ export function TravelerLanding() {
           <a href="#partners">partnerships</a>
           <a href="/blog/why-i-built-local-ledger">founder's blog</a>
           <a href="https://www.instagram.com/local.ledger/" target="_blank" rel="noopener noreferrer">instagram @local.ledger ↗</a>
+          <a href="/community-guidelines">community guidelines</a>
           <a href="#questions">questions & safety</a>
           <a href={appHref}>open the app →</a>
         </nav>
