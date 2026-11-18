@@ -60,19 +60,32 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
     if (reduced()) return;
     node.style.transform = "translate3d(0,35px,0)";
     animateY(35, 0);
-    if (origin && img) {
+    let imageAnimation: Animation | undefined;
+    const expand = () => {
+      if (!origin || !img || reduced()) return;
       const target = img.getBoundingClientRect();
-      if (target.width && target.height && origin.width && origin.height) {
-        const dx = origin.left + origin.width / 2 - (target.left + target.width / 2);
-        const dy = origin.top + origin.height / 2 - (target.top + target.height / 2);
-        const scale = Math.min(origin.width / target.width, origin.height / target.height);
-        img.animate([
-          { transform: `translate3d(${dx}px,${dy}px,0) scale(${scale})`, opacity: .82, borderRadius: "20px" },
-          { transform: "translate3d(0,0,0) scale(1)", opacity: 1, borderRadius: "17px" }
-        ], { duration: 340, easing: "cubic-bezier(.2,.85,.25,1)" });
+      if (!target.width || !target.height || !origin.width || !origin.height) return;
+      const dx = origin.left + origin.width / 2 - (target.left + target.width / 2);
+      const dy = origin.top + origin.height / 2 - (target.top + target.height / 2);
+      const scale = Math.min(origin.width / target.width, origin.height / target.height);
+      const frames: Keyframe[] = [];
+      // Sample a critically damped spring into transform-only compositor frames.
+      for (let i = 0; i <= 28; i++) {
+        const t = i / 28 * .4;
+        const progress = 1 - (1 + 18 * t) * Math.exp(-18 * t);
+        frames.push({
+          transform: `translate3d(${dx * (1 - progress)}px,${dy * (1 - progress)}px,0) scale(${scale + (1 - scale) * progress})`,
+          opacity: .82 + .18 * progress,
+          offset: i / 28
+        });
       }
+      imageAnimation = img.animate(frames, { duration: 400, easing: "linear" });
+    };
+    if (img) {
+      if (img.complete && img.naturalWidth > 0) expand();
+      else img.addEventListener("load", expand, { once: true });
     }
-    return () => cancelSpring.current?.();
+    return () => { cancelSpring.current?.(); imageAnimation?.cancel(); img?.removeEventListener("load", expand); };
   }, []);
   useEffect(() => {
     previousFocus.current = document.activeElement as HTMLElement;
