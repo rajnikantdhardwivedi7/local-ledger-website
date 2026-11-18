@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type PointerEvent as ReactPointerEvent } from "react";
 import "./motion-system.css";
+import { springProgress } from "./spring-curve";
 
 /** A small, dependency-free damped spring. Animates transforms without React renders per frame. */
 function springTo(from: number, to: number, render: (value: number) => void, onDone?: () => void) {
@@ -72,7 +73,7 @@ export function ImageSheet({ src, alt, origin, onClose }: Preview & { onClose: (
       // Sample a critically damped spring into transform-only compositor frames.
       for (let i = 0; i <= 28; i++) {
         const t = i / 28 * .4;
-        const progress = 1 - (1 + 18 * t) * Math.exp(-18 * t);
+        const progress = springProgress(t);
         frames.push({
           transform: `translate3d(${dx * (1 - progress)}px,${dy * (1 - progress)}px,0) scale(${scale + (1 - scale) * progress})`,
           opacity: .82 + .18 * progress,
