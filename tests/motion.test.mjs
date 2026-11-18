@@ -18,3 +18,16 @@ test("spring remains bounded and does not bounce", () => {
 test("spring handles negative time without invalid progress", () => {
   assert.equal(springProgress(-1), 0);
 });
+
+import { shouldDismissSheet, sheetDisplacement } from "../src/sheet-gesture.ts";
+test("sheet dismissal uses distance or a deliberate quick flick", () => {
+  assert.equal(shouldDismissSheet(114, 0.2), false);
+  assert.equal(shouldDismissSheet(115, 0.2), true);
+  assert.equal(shouldDismissSheet(35, 0.65), true);
+  assert.equal(shouldDismissSheet(34, 2), false);
+  assert.equal(shouldDismissSheet(60, 0.3), false);
+});
+test("upward drags cannot pull the sheet past its rest position", () => {
+  assert.equal(sheetDisplacement(200, 100), 0);
+  assert.equal(sheetDisplacement(200, 220), 20);
+});
