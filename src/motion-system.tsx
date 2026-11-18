@@ -20,7 +20,7 @@ export function ImageSheet({ src, alt, onClose }: { src: string; alt: string; on
     const keyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") { event.preventDefault(); close(); }
       if (event.key === "Tab" && panel.current) {
-        const controls = [...panel.current.querySelectorAll<HTMLElement>('button, a[href], [tabindex]:not([tabindex="-1"])')];
+        const controls = Array.from(panel.current.querySelectorAll<HTMLElement>('button, a[href], [tabindex]:not([tabindex="-1"])'));
         if (!controls.length) { event.preventDefault(); return; }
         const first = controls[0], last = controls[controls.length - 1];
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
