@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ImageSheet } from "./motion-system";
 import "./traveler-landing.css";
 
 const appHref = "https://local-ledger-henna.vercel.app/?app=1";
@@ -58,6 +59,7 @@ const day = [
 ];
 
 export function TravelerLanding() {
+  const [preview, setPreview] = useState<{src:string;alt:string}|null>(null);
   useEffect(() => {
     const target = document.getElementById(window.location.hash.slice(1));
     target?.scrollIntoView({ behavior: "instant" });
@@ -75,6 +77,7 @@ export function TravelerLanding() {
 
   return (
     <div className="ll-landing">
+      {preview && <ImageSheet src={preview.src} alt={preview.alt} onClose={() => setPreview(null)} />}
       <a className="ll-skip" href="#main">
         Skip to content
       </a>
@@ -235,10 +238,10 @@ export function TravelerLanding() {
           <div className="ll-screen-grid" role="region" aria-label="Local Ledger app screenshots" tabIndex={0}>
             {screens.map((screen, index) => (
               <figure className="ll-screen-card" key={screen.file}>
-                <a className="ll-screen-image" href={`/images/${screen.file}.webp`} target="_blank" rel="noopener noreferrer" aria-label={`Enlarge ${screen.label.toLowerCase()} screenshot (opens in a new tab)`}>
+                <button type="button" className="ll-screen-image ll-screen-trigger" onClick={() => setPreview({src: `/images/${screen.file}.webp`, alt: screen.alt})} aria-label={`Preview ${screen.label.toLowerCase()} screenshot`}>
                   <img src={`/images/${screen.file}.webp`} alt={screen.alt} width="698" height="1317" loading="lazy" decoding="async" />
                   <span className="ll-screen-expand" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m7 17 10-10M7 7h10v10" /></svg></span>
-                </a>
+                </button>
                 <figcaption>
                   <span className="ll-screen-label"><span aria-hidden="true">0{index + 1} / </span>{screen.label}</span>
                   <h3>{screen.title}</h3>
