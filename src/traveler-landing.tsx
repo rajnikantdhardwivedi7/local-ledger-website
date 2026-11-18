@@ -87,7 +87,7 @@ export function TravelerLanding() {
           <a className="ll-nav-story" href="#story">
             our story
           </a>
-          <a className="ll-nav-story" href="/blog/why-i-built-local-ledger">blog</a>
+          <a className="ll-nav-story" href="/blog">blog</a>
           <a className="ll-nav-day" href="#your-day">
             a day with us
           </a>
@@ -258,6 +258,19 @@ export function TravelerLanding() {
           <a className="ll-button" href="/blog/why-i-built-local-ledger">read why and how i built it <span aria-hidden="true">→</span></a>
         </section>
 
+        <section className="ll-partners ll-section" id="partners" aria-labelledby="ll-partners-title">
+          <span className="ll-eyebrow">FOR PEOPLE WHO BRING PLACES TO LIFE</span>
+          <h2 id="ll-partners-title">good experiences are better shared.</h2>
+          <p className="ll-intro">Run a hostel, local experience, cafe, or travel community? We'd love to hear how we might create meaningful connections together.</p>
+          <div className="ll-partner-grid">
+            <article><span>🏡</span><h3>hostels & stays</h3><p>Help travelers feel welcome and discover the community around them.</p></article>
+            <article><span>🎒</span><h3>local experiences</h3><p>Share ideas for walks, food, culture, and experiences worth remembering.</p></article>
+            <article><span>💬</span><h3>community partnerships</h3><p>Let's explore thoughtful collaborations built around real people.</p></article>
+          </div>
+          <p className="ll-caption">Partnership inquiries are welcome. Self-service advertising and campaign analytics are not yet available.</p>
+          <a className="ll-text-link" href="https://www.instagram.com/local.ledger/" target="_blank" rel="noopener noreferrer">talk to us on instagram ↗</a>
+        </section>
+
         <section className="ll-day ll-section" id="your-day" aria-labelledby="ll-day-title">
           <h2 id="ll-day-title">
             here’s what your day
@@ -416,6 +429,7 @@ export function TravelerLanding() {
         <p>real activities. real people. a little closer.</p>
         <nav aria-label="Footer navigation">
           <a href="#story">our story</a>
+          <a href="#partners">partnerships</a>
           <a href="/blog/why-i-built-local-ledger">founder's blog</a>
           <a href="https://www.instagram.com/local.ledger/" target="_blank" rel="noopener noreferrer">instagram @local.ledger ↗</a>
           <a href="#questions">questions & safety</a>
