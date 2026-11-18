@@ -59,7 +59,7 @@ const day = [
 ];
 
 export function TravelerLanding() {
-  const [preview, setPreview] = useState<{src:string;alt:string}|null>(null);
+  const [preview, setPreview] = useState<{src:string;alt:string;origin?:DOMRect}|null>(null);
   useEffect(() => {
     const target = document.getElementById(window.location.hash.slice(1));
     target?.scrollIntoView({ behavior: "instant" });
@@ -77,7 +77,7 @@ export function TravelerLanding() {
 
   return (
     <div className="ll-landing">
-      {preview && <ImageSheet src={preview.src} alt={preview.alt} onClose={() => setPreview(null)} />}
+      {preview && <ImageSheet src={preview.src} alt={preview.alt} origin={preview.origin} onClose={() => setPreview(null)} />}
       <a className="ll-skip" href="#main">
         Skip to content
       </a>
@@ -238,7 +238,7 @@ export function TravelerLanding() {
           <div className="ll-screen-grid" role="region" aria-label="Local Ledger app screenshots" tabIndex={0}>
             {screens.map((screen, index) => (
               <figure className="ll-screen-card" key={screen.file}>
-                <button type="button" className="ll-screen-image ll-screen-trigger" onClick={() => setPreview({src: `/images/${screen.file}.webp`, alt: screen.alt})} aria-label={`Preview ${screen.label.toLowerCase()} screenshot`}>
+                <button type="button" className="ll-screen-image ll-screen-trigger" onClick={(event) => setPreview({src: `/images/${screen.file}.webp`, alt: screen.alt, origin: event.currentTarget.querySelector("img")?.getBoundingClientRect()})} aria-label={`Preview ${screen.label.toLowerCase()} screenshot`}>
                   <img src={`/images/${screen.file}.webp`} alt={screen.alt} width="698" height="1317" loading="lazy" decoding="async" />
                   <span className="ll-screen-expand" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m7 17 10-10M7 7h10v10" /></svg></span>
                 </button>
