@@ -27,3 +27,11 @@
 
 .ll-motion-page .ll-screen-trigger{appearance:none;-webkit-appearance:none;width:100%;font:inherit;color:inherit;text-align:inherit;cursor:zoom-in}
 .ll-motion-page .ll-screen-trigger img{pointer-events:none}
+
+/* Phase 2: JS spring owns the panel transform; never run the legacy CSS sheet transform simultaneously. */
+.ll-physics-sheet,.ll-sheet-closing .ll-physics-sheet{animation:none!important;will-change:transform}
+.ll-sheet-drag-zone{width:100%;height:30px;display:flex;align-items:flex-start;justify-content:center;touch-action:none;cursor:grab;user-select:none}
+.ll-sheet-drag-zone:active{cursor:grabbing}
+.ll-sheet-drag-zone .ll-sheet-handle{display:block;margin:0}
+.ll-physics-sheet img{transform-origin:center center}
+@media(prefers-reduced-motion:reduce){.ll-physics-sheet,.ll-physics-sheet img{will-change:auto}}
