@@ -3,9 +3,8 @@ import { ImageSheet } from "./motion-system";
 import "./traveler-landing.css";
 
 const appHref = "https://local-ledger-henna.vercel.app/?app=1";
-// Release owners supply the signed APK URL; never substitute an invented file.
-const releaseUrl = import.meta.env.VITE_ANDROID_APK_URL as string | undefined;
-const apkUrl = releaseUrl && /^https:\/\//i.test(releaseUrl) ? releaseUrl : undefined;
+// Direct Android release URL supplied by the app owner.
+const apkUrl = "https://local-ledger-henna.vercel.app/downloads/local-ledger.apk";
 
 const screens = [
   { file: "app-map", title: "a world of possibilities", label: "EXPLORE", description: "Find activities on the map.", alt: "Local Ledger map showing an activity marker, category filters and the Create button" },
@@ -386,14 +385,8 @@ export function TravelerLanding() {
             <details>
               <summary>where can i get the Android app?</summary>
               <p>
-                {apkUrl ? (
-                  <>
-                    Download the Android APK using the button below. Android may ask you to allow
-                    installation from your browser.
-                  </>
-                ) : (
-                  "A signed Android APK is not linked here yet. You can use the web app now."
-                )}{" "}
+                <>Download the Android APK from the download section. Android may ask you to allow
+                  installation from your browser.</>{" "}
                 Local Ledger is not currently released on Google Play or the App Store.
               </p>
             </details>
@@ -414,16 +407,12 @@ export function TravelerLanding() {
             <a className="ll-button" href={appHref}>
               open local ledger <span aria-hidden="true">→</span>
             </a>
-            {apkUrl ? (
-              <a className="ll-button ll-secondary" href={apkUrl} download>
-                download Android APK ↓
-              </a>
-            ) : null}
+            <a className="ll-button ll-secondary" href={apkUrl} aria-label="Download Local Ledger Android APK">
+              download Android APK ↓
+            </a>
           </div>
           <p className="ll-caption">
-            {apkUrl
-              ? "Android APK · direct download"
-              : "available on the web · Android download coming when ready"}
+            "Android APK · direct file link · Android may request permission to install"
           </p>
         </section>
       </main>
@@ -441,6 +430,7 @@ export function TravelerLanding() {
           <a href="/community-guidelines">community guidelines</a>
           <a href="#questions">questions & safety</a>
           <a href={appHref}>open the app →</a>
+          <a href={apkUrl}>download Android APK ↓</a>
         </nav>
         <small>© {new Date().getFullYear()} Local Ledger · made with love by Rajnikant ♡</small>
       </footer>
