@@ -1,12 +1,16 @@
 {
   "rewrites": [
     {
-      "source": "/blog/:path*",
-      "destination": "/index.html"
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/why-i-built-local-ledger",
+      "destination": "/founder-story.html"
     },
     {
       "source": "/community-guidelines",
-      "destination": "/index.html"
+      "destination": "/community-guidelines.html"
     }
   ]
 }
