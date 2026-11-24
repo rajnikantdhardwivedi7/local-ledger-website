@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 
 const template = await readFile("dist/index.html", "utf8");
-const origin = "https://local-ledger-website.vercel.app";
+const origin = "https://local-ledger-henna.vercel.app";
 const pages = [
   ["/", "index", "Local Ledger | Meet Solo Travelers Through Nearby Activities", "Find people to explore with through nearby activities and group chats. Discover Local Ledger and download the Android app."],
   ["/blog", "blog", "Local Ledger Blog | Stories About Solo Travel", "Read stories from the people building Local Ledger, a community for solo travelers."],
