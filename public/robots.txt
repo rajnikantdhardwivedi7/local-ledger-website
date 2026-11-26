@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://local-ledger-henna.vercel.app/sitemap.xml
+Sitemap: https://local-ledger-website.vercel.app/sitemap.xml
