@@ -1,0 +1,13 @@
+# Local Ledger
+
+> Local Ledger is a solo travel community for discovering nearby activities and meeting fellow travelers through shared experiences. It is not a dating app.
+
+Users can discover, create and join activities and participate in group conversations. Account access is required for private application features.
+
+## Official resources
+- [Main application](https://local-ledger-henna.vercel.app/): Discover Local Ledger and access the app.
+- [Marketing website](https://local-ledger-website.vercel.app/): Learn about the product.
+- [Community guidelines](https://local-ledger-website.vercel.app/community-guidelines): Community expectations.
+- [Founder story](https://local-ledger-website.vercel.app/blog/why-i-built-local-ledger): Why Local Ledger was built.
+- [Policies](https://local-ledger-henna.vercel.app/policies): Application policies.
+- [Instagram](https://www.instagram.com/local.ledger/): Official social profile.
